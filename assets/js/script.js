@@ -52,23 +52,36 @@ function getStoredWeather() {
     }
 }
 
+
+
 // Use local storage to produce weather that was searched for
 function getTodayWeather(userCity) {
-    let pullFrom = `https://api.openweathermap.org/data/2.5/weather?q=${userCity}&units=imperial&appid=${apiKey}`;
-    let userStoredWeather = getuserStoredWeather();
-    let userHistory = userStoredWeather.userHistory;
-    let currentTime = new Date().getTime();
-    userCity = userCity.toLowerCase().trim();
-    for (let i = 0; i < userHistory.length; i++) {
-        if (userHistory[i].userCity.toLowerCase() == userCity && currentTime < userHistory[i].dt * 1000 + 600000) {
-            for (let j = 0; j < userStoredWeather.data.todayWeather.length; j++) {
-                if (userStoredWeather.data.todayWeather[j].name.toLowerCase() == userCity) {
-                    showTodaysWeather(userStoredWeather.data.todayWeather[j]);
-                    return;
-                }
-            }
+  let pullFrom = `https://api.openweathermap.org/data/2.5/weather?q=${userCity}&units=imperial&appid=${apiKey}`;
+  let userStoredWeather = getStoredWeather();
+  let userHistory = userStoredWeather.userHistory;
+  let currentTime = new Date().getTime();
+  userCity = userCity.toLowerCase().trim();
+  for (let i = 0; i < userHistory.length; i++) {
+    if (
+      userHistory[i].userCity.toLowerCase() == userCity &&
+      currentTime < userHistory[i].dt * 1000 + 600000
+    ) {
+      for (let j = 0; j < userStoredWeather.data.todayWeather.length; j++) {
+        if (
+          userStoredWeather.data.todayWeather[j].name.toLowerCase() == userCity
+        ) {
+          showTodaysWeather(userStoredWeather.data.todayWeather[j]);
+          return;
         }
+      }
     }
+  }
+  // Pull data from API rather then local storage
+  $.ajax({ url: pullFrom, method: "GET" }).then(function (results) {
+    showTodayWeather(results);
+    storeTodayWeather(results);
+    console.log(results);
+  });
 }
 
 
