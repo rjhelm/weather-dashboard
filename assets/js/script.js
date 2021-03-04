@@ -28,14 +28,44 @@ function userWeather(cityName) {
     $.ajax({url: fiveForecast, method: "GET"}).then(function(response){
         console.log(response)
         let feelslike = response.main.temp
-        feelslike = (feelslike - 273.14) * 1.8 + 32
+        feelslike = (feelslike - 273.15) * 1.8 + 32
         feelslike = Math.floor(feelslike)
         myCity = response.name 
         $("#weather-now").append("<div>" + feelslike + "</div>")
         $("#weather-now").append("<div>" + myCity + "</div>")
         fiveForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${myCity}&appid=${apiKey}`
 
-        
+        $.ajax({url: fiveForecast, method: "GET"}).then(function(response) {
+            console.log(response)
+            let averageTemp = 0
+            let pastDate = ""
+            let count = 0
+            let results = 0
+            pastDate = moment().format("MM DD YYYY")
+            for (let index = 0; index < response.list.length; index++) {
+                let today = moment(response.list[index].dt, "X").format("MM DD YYYY")
+                
+                let temperature = response.list[index].main.temperature
+                temperature = (temperature - 273.15) * 1.8 + 32
+                temperature = Math.floor(temperature)
+
+                console.log(currentDate)
+                console.log(temperature)
+
+                if (pastDate === today) {
+                    averageTemp = averageTemp + temperature
+                    count ++
+                    pastDate = today
+                } else {
+                    results = averageTemp / count
+                    results = Math.floor(results)
+                    console.log("results", results)
+                    
+                }
+            }
+            
+        })
+
 
 
 
