@@ -38,8 +38,8 @@ function userStoredWeather() {
 
 // Show user Searches or returns empty if they have no past search
 function getStoredWeather() {
-    let userSearchHistory = JSON.parse(localStorage.getItem("userSearchHistory"));
-    if (!userSearchHistory) {
+    let storeUserData = JSON.parse(localStorage.getItem("storeUserData"));
+    if (!storeUserData) {
         return {
             userHistory: [],
             data: {
@@ -48,7 +48,7 @@ function getStoredWeather() {
             }
         };
     } else {
-      return userSearchHistory;
+      return storeUserData;
     }
 }
 
@@ -84,6 +84,17 @@ function getTodayWeather(userCity) {
   });
 }
 
+// Keep data that user pulls so the city can easily be searched again
+function storeTodayWeather(results) {
+    let storeTodayWeather = getStoredWeather();
+    let userHistoryInput = {
+      userCity: results.name,
+      dt: results.dt
+    };
+    storeTodayWeather.userHistory.push(userHistoryInput);
+    storeTodayWeather.data.todayWeather.push(results);
+    localStorage.setItem("storeUserData", JSON.stringify(storeUserData));    
+}
 
 
 
