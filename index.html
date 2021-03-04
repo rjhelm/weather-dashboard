@@ -1,76 +1,90 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
 
-        <link 
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" 
-        />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" href="./assets/css/style.css" />
-        <title>Weather Dashboard || 🌤⛈🌪🌫</title>
-    </head>
-    
-    <body>
-        <header>🌤⛈ Weather Dashboard 🌪🌫</header>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
-        <div class="container">
-            <div class="row">
-                
-                <div class="col-sm-4">
-                    <label for="search-city">
-                        <h2>Search For A City, See The Weather!</h2>
-                    </label>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Weather Dashboard || 🌤⛈🌪🌫</title>
+</head>
 
-                    <div class="user-input mb-3">
-                        <input type="search" class="form-control" placeholder="Enter a city!" id="user-city">
+<body>
+    <header>
+        <div class="container-fluid text-center border-bottom">
+            <h1>
+                🌤⛈ Weather Dashboard 🌪🌫
+            </h1>
+        </div>
+    </header>
 
-                        <div class="user-input-append">
-                            <button class="button" id="search-btn" type="button/text">Go!</button>
-                        </div>
-                    </div>
-                    <ul id="results">
 
-                    </ul>
-                    <button class="btn-secondary" type="button">Clear History</button>
-
-                    <hr>
-
-                    <div class="user-history">
-
-                    </div>
+    <div class="container-fluid">
+        <div class="row"></div>
+        <div class="jumbotron jubmotron-fuid">
+            <form class="form-group">
+                <label for="citySearch">
+                    <h4>Search for a City:</h4>
+                </label>
+                <div class="form-inline">
+                    <input type="text" class="form-control" id="citySearchText">
+                    <button type="submit" class="btn btn-dark" id="citySearchBtn">
+                        <i class="fas fa-search"></i></button>
                 </div>
-
-                <div class="col-md-8">
-                    <div class="d-flex flex-column">
-                        <div class="p-2" id="weather-now"><h1>Current Weather Conditions`  </h1></div>
-                        <div class="p-2"><h1>Next 5 Days!</h1></div>
-                        
-                        <div id="five-day" class="row"></div>
-                    </div>
-                </div>
+            </form>
+            <div class="card">
+                <ul class="list-group list-group-flush" id="searchHistoryList">
+                </ul>
             </div>
         </div>
 
+        <div class="col-md-9" id="searchResults">
+            <div class="row weather-conditions">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body" id="currentWeather">
+                            <h3 class="card-title">
+                                <div id="currentCity"></div>
+                                <div id="todaysDate"></div>
+                                <img src="" alt="" id="currentWeatherIcon">
+                            </h3>
+                            <ul class="card-text current-weather-conditions">
+                                <li>Temperature: <div id="todaysTemp"></div>&degF</li>
+                                <li>Humidity: <div id="todaysHumidity"></div>%</li>
+                                <li>Wind Speed: <div id="todaysWindSpeed"></div>MPH</li>
+                                <li>UV Index:<div class="border" id="todaysUVIndex">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 id="forecastTitle">Weekly Forecast</h3>
+                </div>
+                <div class="col-md-12" id="forecast"></div>
+            </div>
+        </div>
+    </div>
+    </div>
 
-        <script 
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" 
-            crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous">
+    </script>
+    script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
-         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-             crossorigin="anonymous">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-             crossorigin="anonymous">
-        </script>
-        <script src="./assets/js/script.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
 </html>

@@ -16,7 +16,16 @@ $("#searchBtn").on("click", function(event) {
     getWeeklyWeather(userCity)
 });
 
-
+// Function used to input user input and save the city to be used later
+function userHistory() {
+    $("#searchHistory").empty();
+    let userHistory = getTodayWeather().userHistory;
+    if (userHistory) {
+        for (let i = 0; i < userHistory.length; i++) {
+            let item = $("<li class='list-group-item'></li>");
+        }
+    }
+}
 
 
 
