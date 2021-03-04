@@ -17,3 +17,39 @@ $(document).ready(function() {
 })
 
 // Take the value of user search and send it to userWeather function
+function userWeather(cityName) {
+    let apiCall = ""
+    if (cityName !== "") {
+        apiCall = weatherNow + apiKey + "&q=" + cityName
+    } else {
+        apiCall = weatherNow + apiKey + "&q=" + myCity
+    }
+
+    $.ajax({url: fiveForecast, method: "GET"}).then(function(response){
+        console.log(response)
+        let feelslike = response.main.temp
+        feelslike = (feelslike - 273.14) * 1.8 + 32
+        feelslike = Math.floor(feelslike)
+        myCity = response.name 
+        $("#weather-now").append("<div>" + feelslike + "</div>")
+        $("#weather-now").append("<div>" + myCity + "</div>")
+        fiveForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${myCity}&appid=${apiKey}`
+
+        
+
+
+
+
+
+
+        let averageTemp = 0
+        let priorDay = ""
+        let count = 0
+        let results = 0
+        priorDay = moment().format("MM/DD/YYYY")
+        for (let index = 0; index < response.list.length; index++) {
+            let currentDate = moment(response.list[index].main.temp)
+        }
+    })
+}
+
