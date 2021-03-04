@@ -6,6 +6,8 @@ let fiveForecast = "https://api.openweathermap.org/data/2.5/forecast?4e5dbe7db2b
 let weatherNow = "https://api.openweathermap.org/data/2.5/weather?appid="
 let uv = "https://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}"
 let userSearch = JSON.parse(localStorage.getItem("userResults")) || [];
+let userHistory = document.getElementById("#user-history")
+let searchBtn = document.getElementById("#search-btn")
 
 // Search for user input city 
 $("#searchBtn").on("click", function(event) {
@@ -17,18 +19,41 @@ $("#searchBtn").on("click", function(event) {
 });
 
 // Function used to input user input and save the city to be used later
-function userHistory() {
-    $("#searchHistory").empty();
+function userSearchHistory() {
+    $("#user-history-list").empty();
     let userHistory = getTodayWeather().userHistory;
     if (userHistory) {
         for (let i = 0; i < userHistory.length; i++) {
             let item = $("<li class='list-group-item'></li>");
+            item.text(userHistory[i].cityName);
+            $("#userHistory").prepend(item);
         }
+        $(".list-group-item").on('click', function(){
+            getTodayWeather($(this).text());
+            getWeeklyWeather($(this).text());
+            console.log(userHistory);
+        });
     }
 }
 
+// Show user Searches or returns empty if they have no past search
+function getUserSearchHistory() {
+    let userSearchHistory = JSON.parse(localStorage.getItem("userSearchHistory"));
+    if (!userSearchHistory) {
+        return {
+            userHistory: [],
+            data: {
+                todayWeather: [],
+                fiveForecast: []
+            }
+        };
+    } else {
+      return userSearchHistory;
+    }
+}
 
-
+// Use local storage to produce weather that was searched for
+function getTodayWeather() 
 
 
 
