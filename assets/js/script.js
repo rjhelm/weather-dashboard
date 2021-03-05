@@ -51,6 +51,7 @@ let getWeather = function(city) {
         responseContainer.appendChild(cityTempDiv);
         cityDetailsDiv.classList = 'detail-div';
         responseContainer.appendChild(cityDetailsDiv);
+
         cityNameEl.innerHTML =
           "<h2 class='secondary-text'>Current Weather for <span class='font-weight-bold'>" + response.name + 
           "</span><h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon +
@@ -69,8 +70,39 @@ let getWeather = function(city) {
           " " +
           response.main.humidity +
           "%</span></h4>";
-        cityDetailsDiv.appendChild(humidityEl);  
+        cityDetailsDiv.appendChild(humidityEl);
+        
+        windEl.innerHTML =
+          "<h4 class='secondary-text'>Wind Speed:<span class='font-weight-bold'>" +
+          " " +
+          Math.round(response.wind.speed) +
+          " MPH</span></h4>";
+        cityDetailsDiv.appendChild(windEl);  
 
+        return fetch("https://api.openweathermap.org/data/2.5/uvi?appid=ff0a18ba5cd32a565822484c34ea4036at=" + response.coord.lat + "&lon=" + response.coord.lon);
+    })
+    .then(function (uvFetch) {
+        return uvFetch.json();
+    })
+    .then(function (uvResponse) {
+        uvIndexContainer.setAttribute("id", "uv-value");
+        uvIndexContainer.classList = "secondary-text uv-class";
+        cityDetailsDiv.appendChild(uvIndexContainer);
+        let uvValue = uvResponse.value;
+        uvIndexEl.innerHTML = "UV Index: ";
+        uvValueDisplay.setAttribute("id", "uv-index");
+        uvValueDisplay.innerHTML = uvValue;
+        uvIndexContainer.appendChild(uvIndexEl);
+        uvIndexContainer.appendChild(uvValueDisplay);
+
+        if (uvResponse.value <= 2) {
+            document.querySelector("#uv-index").classList = "uv-result rounded bg-success";
+        } else if (uvResponse.value >= 2 && uvResponse.value <= 7) { 
+            document.querySelector("#uv-index").classList = "uv-result rounded bg-warning";
+        } else if (uvResponse.value < 7) {
+            document.querySelector("#uv-index").classList = "uv-result rounded bg-danger";    
+        }
+        return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=ff0a18ba5cd32a565822484c34ea4036&units=imperial");
     })
 }
 
