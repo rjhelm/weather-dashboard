@@ -6,10 +6,8 @@ let search = document.querySelector("#search-form");
 let searchInput = document.querySelector("#search-input");
 let searchResult = document.querySelector("#search-result");
 let clearBtn = document.querySelector("clear-btn")
-let fiveForecast = "https://api.openweathermap.org/data/2.5/forecast?4e5dbe7db2b5e9c8b47fa40b691443d5q={city name},{country code}"
-let weatherNow = "https://api.openweathermap.org/data/2.5/weather?appid="
-let uv = "https://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}"
-let userSearch = JSON.parse(localStorage.getItem("userResults")) || [];
+
+// let userSearch = JSON.parse(localStorage.getItem("userResults")) || [];
 
 //Temperature HTML Variables
 const cityTempDiv = document.createElement("div");
@@ -23,7 +21,7 @@ let uvIndexEl = document.createElement("h4");
 let uvValueDisplay = document.createElement("div");
 
 // 5 day forecast HTML Variables
-let forecastContainer = document.querySelector("#fiveday-forcast");
+let forecastContainer = document.querySelector("#forecast-result");
 
 // Search HTML variables
 let searchWrap = document.querySelector("#search-wrap");
@@ -119,28 +117,40 @@ let getWeather = function(city) {
             dateDiv.innerHTML = "<h4 class='font-weight-bold>" + forecastDate + "</h4>";
             forecastEl.appendChild(dateDiv);
                 
-            }
-        }
-    }) 
-}
+            let iconDiv = document.createElement("div");
+            iconDiv.innerHTML = "<img src='http://openweathermap.org/img/w/" + forecastResponse.daily[i].weather[0].icon + ".png' class='forecast-icon' alt=Current weather icon/>";
+            forecastEl.appendChild(iconDiv);
 
-// Function used to input user input and save the city to be used later
-function userStoredWeather() {
-    $("#user-history-list").empty();
-    let userHistory = getTodayWeather().userHistory;
-    if (userHistory) {
-        for (let i = 0; i < userHistory.length; i++) {
-            let item = $("<li class='list-group-item'></li>");
-            item.text(userHistory[i].cityName);
-            $("#userHistory").prepend(item);
+            let tempDiv = document.createElement("div");
+            tempDiv.classList = "card-text secondary-text";
+            tempDiv.innerHTML = "<h5>Day Temp:<span>" + " " + Math.round(forecastResponse.daily[i].temp.day) + "&#176F</span></h5>" + "<h5>Night Temp:<span>" + " " + Math.round(forecastResponse.daily[i].temp.night) + " &#176F</span></h5>";
+            forecastEl.appendChild(tempDiv);
+
+            let humidityDiv = document.createElement("div");
+            humidityDiv.classList = "card-text secondary-text";
+            humidityDiv.innerHTML = "<h5>Humidity:<span>" + " " + forecastResponse.daily[i].humidity + "%</span></h5>";
+            forecastEl.appendChild(humidityDiv);
         }
-        $(".list-group-item").on('click', function(){
-            getTodayWeather($(this).text());
-            getWeeklyWeather($(this).text());
-            console.log(userHistory);
-        });
-    }
-}
+    })
+    .catch(function (error){
+        removePrevious();
+        alert(error.message);
+        document.querySelector("#search-bar").value = "";
+    }); 
+};
+
+
+let searchEvent = function(event) {
+    event.preventDefault();
+    let searchValue = searchBar.value.trim().toUpperCase();
+    if (searchValue) {
+        weatherRequest(searchValue);
+        createBtn(searchValue);
+        storeHistory();
+    } else {
+        alert("You must enter a city into the search field. Please try again!");
+    };
+};
 
 // Show user Searches or returns empty if they have no past search
 function getStoredWeather() {
@@ -223,29 +233,6 @@ function showTodayWeather(results) {
     getUVIndex(longitude, latitude);
 }
 
-// Function to produce the uv index by local storage or api
-function getUVIndex(longitude, latitude) {
-    let uvUrl = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKEY}&lat=${lat}&lon=${lon}`;
-
-    $.ajax({url: uvUrl, method: "GET"}).then(function (results){   
-        let uvIndex= results.value;
-        let todayUVLevel = $("#today-uv").attr("data-uv-level");
-        $("#today-uv").removeClass(todayUVLevel);
-        $("#today-uv").text(uvIndex);
-        if (uvIndex < 3) {
-            $("#today-uv").attr("data-uv-level", "uv-low");
-        } else if (uvIndex < 6) {
-          $("#today-uv").attr("data-uv-level", "uv-mod");  
-        } else if (uvIndex < 8) {
-            $("#today-uv").attr("data-uv-level", "uv-high");
-        } else if (uvIndex < 11) {
-            $("#today-uv").attr("data-uv-level", "uv-very-high");
-        } else {
-            $("#today-uv").attr("data-uv-level", "uv-ext");
-        }
-        $("#today-uv").addClass($("#today-uv").attr("data-uv-level"));
-    });
-}
 
 
 
