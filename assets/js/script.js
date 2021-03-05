@@ -23,7 +23,7 @@ let uvIndexEl = document.createElement("h4");
 let uvValueDisplay = document.createElement("div");
 
 // 5 day forecast HTML Variables
-let fiveDay = document.querySelector("#fiveday-forcast");
+let forecastContainer = document.querySelector("#fiveday-forcast");
 
 // Search HTML variables
 let searchWrap = document.querySelector("#search-wrap");
@@ -104,6 +104,24 @@ let getWeather = function(city) {
         }
         return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=ff0a18ba5cd32a565822484c34ea4036&units=imperial");
     })
+    .then(function (forecastResponse) {
+        return forecastResponse.json();
+    })
+    .then(function (forecastResponse) {
+        for (let i = 1; i < 6; i++) {
+            let forecastEl = document.createElement("div");
+            forecastEl.classList = "forecast-card card-body rounded-md border-dark bg-info text-light"
+            forecastContainer.appendChild(forecastEl);
+
+            let dateDiv = document.createElement("div");
+            dateDiv.classList = "secondary-text card-title";
+            let forecastDate = moment.utc(forecastResponse.daily[i].dt * 1000).format("MM/DD/YYYY");
+            dateDiv.innerHTML = "<h4 class='font-weight-bold>" + forecastDate + "</h4>";
+            forecastEl.appendChild(dateDiv);
+                
+            }
+        }
+    }) 
 }
 
 // Function used to input user input and save the city to be used later
