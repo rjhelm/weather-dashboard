@@ -1,13 +1,11 @@
-
+// Weather Dashboard Web Application
 // Global Variables
 // let apiKey = "ff0a18ba5cd32a565822484c34ea4036";
 let date = moment().format("ll");
 let search = document.querySelector("#search-form");
 let searchInput = document.querySelector("#search-input");
 let searchResult = document.querySelector("#search-result");
-let clearBtn = document.querySelector("clear-btn")
-
-// let userSearch = JSON.parse(localStorage.getItem("userResults")) || [];
+let clearBtn = document.querySelector("clear-btn");
 
 //Temperature HTML Variables
 const cityTempDiv = document.createElement("div");
@@ -33,6 +31,7 @@ let getWeather = function(city) {
     if (!city) {
         return;
     };
+    // Fetch request from openweatherapi
     let weatherAPI =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -43,33 +42,34 @@ let getWeather = function(city) {
         }
         return response.json();
     })
+
     // Create new elements based on the response data
     .then(function (response) {
         cityTempDiv.classList = 'temp-div';
         responseContainer.appendChild(cityTempDiv);
         cityDetailsDiv.classList = 'detail-div';
         responseContainer.appendChild(cityDetailsDiv);
-
+        // Display the user's search entry for the city
         cityNameEl.innerHTML =
           "<h2 class='secondary-text'>Current Weather for <span class='font-weight-bold'>" + response.name + 
           "</span><h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon +
           ".png' alt=Current weather icon/><h2 class='font-weight-bold secondary-text'>" + date + "</h2><br>";
         cityTempDiv.appendChild(cityNameEl);
-
+        // Display the fetched current temperature value
         currentTempEl.innerHTML =
           "<h3 class='secondary-text'>Current Temperature:<span class='font-weight-bold'>" +
           " " +
           Math.round(response.main.temp) +
           "&#176F</span></h3><br>";
         cityTempDiv.appendChild(cityTempEl);
-
+        // Display the fetched humidity value
         humidityEl.innerHTML =
           "<h4 class='secondary-text'>Humidity:<span class='font-weight-bold'>" +
           " " +
           response.main.humidity +
           "%</span></h4>";
         cityDetailsDiv.appendChild(humidityEl);
-        
+        // Display the fetched wind speed value
         windEl.innerHTML =
           "<h4 class='secondary-text'>Wind Speed:<span class='font-weight-bold'>" +
           " " +
@@ -92,7 +92,7 @@ let getWeather = function(city) {
         uvValueDisplay.innerHTML = uvValue;
         uvIndexContainer.appendChild(uvIndexEl);
         uvIndexContainer.appendChild(uvValueDisplay);
-
+        // UV Index results and gives a response based on how high the Index is
         if (uvResponse.value <= 2) {
             document.querySelector("#uv-index").classList = "uv-result rounded bg-success";
         } else if (uvResponse.value >= 2 && uvResponse.value <= 7) { 
@@ -139,7 +139,7 @@ let getWeather = function(city) {
     }); 
 };
 
-
+// Search Function that lets the user know that they must enter a value 
 let searchEvent = function(event) {
     event.preventDefault();
     let searchValue = searchBar.value.trim().toUpperCase();
@@ -152,6 +152,7 @@ let searchEvent = function(event) {
     };
 };
 
+// Search button for user to search for the city weather
 function createBtn(city) {
     let citySearch = document.createElement("button");
     citySearch.textContent = city;
@@ -162,49 +163,18 @@ function createBtn(city) {
     searchHistoryDiv.prepend(citySearch);
 };
 
-
-
-// Use local storage to produce weather that was searched for
-function getTodayWeather(userCity) {
-  let pullFrom = `https://api.openweathermap.org/data/2.5/weather?q=${userCity}&units=imperial&appid=${apiKey}`;
-  let userStoredWeather = getStoredWeather();
-  let userHistory = userStoredWeather.userHistory;
-  let currentTime = new Date().getTime();
-  userCity = userCity.toLowerCase().trim();
-  for (let i = 0; i < userHistory.length; i++) {
-    if (
-      userHistory[i].userCity.toLowerCase() == userCity &&
-      currentTime < userHistory[i].dt * 1000 + 600000
-    ) {
-      for (let j = 0; j < userStoredWeather.data.todayWeather.length; j++) {
-        if (
-          userStoredWeather.data.todayWeather[j].name.toLowerCase() == userCity
-        ) {
-          showTodaysWeather(userStoredWeather.data.todayWeather[j]);
-          return;
-        }
-      }
-    }
-  }
-  // Pull data from API rather then local storage
-  $.ajax({ url: pullFrom, method: "GET" }).then(function (results) {
-    showTodayWeather(results);
-    storeTodayWeather(results);
-    console.log(results);
-  });
-}
-
 // Keep data that user pulls so the city can easily be searched again
-function storeTodayWeather(results) {
-    let storeTodayWeather = getStoredWeather();
-    let userHistoryInput = {
-      userCity: results.name,
-      dt: results.dt
+function storeHistory() {
+    let userSearch = document.querySelector("#search-bar").value.trim().toUpperCase();
+    if (!userSearch) {
+        return;
     };
-    storeTodayWeather.userHistory.push(userHistoryInput);
-    storeTodayWeather.data.todayWeather.push(results);
-    localStorage.setItem("storeUserData", JSON.stringify(storeUserData));    
-}
+    let previousCitySearch = JSON.parse(localStorage.getItem("searchedCities")) || [];
+    previousCitySearch.push(userSearch);
+    localStorage.setItem("searchedCities", JSON.stringify(previousCitySearch));
+    document.querySelector("#search-bar").value = "";
+    removePrevious();
+};
 
 function showTodayWeather(results) {
     let userCity = results.name;
