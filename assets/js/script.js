@@ -3,9 +3,9 @@
 // let apiKey = "ff0a18ba5cd32a565822484c34ea4036";
 let date = moment().format("ll");
 let search = document.querySelector("#search");
-let userInput = document.querySelector("#search-input");
+let userInput = document.querySelector("#user-input");
 let result = document.querySelector("#search-result");
-let clearBtn = document.querySelector("clear-btn");
+let clearBtn = document.querySelector("#clear-btn");
 
 //Temperature HTML Variables
 const tempDiv = document.createElement("div");
@@ -35,7 +35,7 @@ let getWeather = function(city) {
     let weatherOpen =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
-      "&units=imperial&appidff0a18ba5cd32a565822484c34ea4036";
+      "&units=imperial&appid=ff0a18ba5cd32a565822484c34ea4036";
     fetch(weatherOpen).then(function (response) {
         if (!response || !response.ok) {
             throw new Error('There was an error');
@@ -46,9 +46,9 @@ let getWeather = function(city) {
     // Create new elements based on the response data
     .then(function (response) {
         tempDiv.classList = 'temp-div';
-        responseContainer.appendChild(tempDiv);
+        result.appendChild(tempDiv);
         cityDiv.classList = 'city-div';
-        responseContainer.appendChild(cityDiv);
+        result.appendChild(cityDiv);
         // Display the user's search entry for the city
         cityEl.innerHTML =
           "<h2 class='created-text'>Current Weather for <span class='font-weight-bold'>" + response.name + 
@@ -61,7 +61,7 @@ let getWeather = function(city) {
           " " +
           Math.round(response.main.temp) +
           "&#176F</span></h3><br>";
-        tempDiv.appendChild(cityTempEl);
+        tempDiv.appendChild(tempEl);
         // Display the fetched humidity value
         humidityEl.innerHTML =
           "<h4 class='created-text'>Humidity:<span class='font-weight-bold'>" +
@@ -77,7 +77,12 @@ let getWeather = function(city) {
           " MPH</span></h4>";
         cityDiv.appendChild(windEl);  
 
-        return fetch("https://api.openweathermap.org/data/2.5/uvi?appid=ff0a18ba5cd32a565822484c34ea4036at=" + response.coord.lat + "&lon=" + response.coord.lon);
+       return fetch(
+         "https://api.openweathermap.org/data/2.5/uvi?appid=c83c5006fffeb4aa44a34ffd6a27f135&lat=" +
+           response.coord.lat +
+           "&lon=" +
+           response.coord.lon
+       );
     })
     .then(function (uvFetch) {
         return uvFetch.json();
@@ -100,7 +105,13 @@ let getWeather = function(city) {
         } else if (uvResponse.value < 7) {
             document.querySelector("#uv-index").classList = "uv-result rounded bg-danger";    
         }
-        return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=ff0a18ba5cd32a565822484c34ea4036&units=imperial");
+        return fetch(
+          "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+            uvResponse.lat +
+            "&lon=" +
+            uvResponse.lon +
+            "&appid=c83c5006fffeb4aa44a34ffd6a27f135&units=imperial"
+        );
     })
     .then(function (fiveDayResponse) {
         return fiveDayResponse.json();
@@ -108,7 +119,7 @@ let getWeather = function(city) {
     .then(function (fiveDayResponse) {
         for (let i = 1; i < 6; i++) {
             let fiveDayEl = document.createElement("div");
-            fiveDayEl.classList = "five-card card-body rounded-md border-dark bg-info text-light"
+            fiveDayEl.classList = "five-card card-body rounded-lg bg-dark border-light"
             fiveDay.appendChild(fiveDayEl);
 
             let dateDiv = document.createElement("div");
@@ -142,10 +153,10 @@ let getWeather = function(city) {
 // Search Function that lets the user know that they must enter a value 
 let searchWeather = function(event) {
     event.preventDefault();
-    let searchValue = searchBar.value.trim().toUpperCase();
-    if (searchValue) {
-        getWeather(searchValue);
-        generateBtn(searchValue);
+    let userValue = userInput.value.trim().toUpperCase();
+    if (userValue) {
+        getWeather(userValue);
+        generateBtn(userValue);
         keepUserHistory();
     } else {
         alert("You must enter a city into the search field. Please try again!");
@@ -157,10 +168,18 @@ function generateBtn(city) {
     let userCity = document.createElement("button");
     userCity.textContent = city;
     userCity.classList = "btn btn-info btn-block";
-    userCity.setAttribute("data-city", city);
+    userCity.setAttribute("user-city", city);
     userCity.setAttribute("type", "submit");
     userCity.setAttribute("id", "city-" + city);
     cityHistory.prepend(userCity);
+};
+
+function clearPastCities() {
+    let pastCities = JSON.parse(localStorage.getItem("pastCities"));
+    for (let i = 0; i < pastCities.length; i++) {
+        document.getElementById("city-" + pastCities[i]).remove();
+    }
+    localStorage.clear("pastCities");
 };
 
 // Keep data that user pulls so the city can easily be searched again
@@ -185,8 +204,8 @@ function generateUserHistory() {
         }
     };
     for (i = 0; i < document.getElementsByClassName("btn").length; i++) {
-        document.getElementsByClassName("btn")[i].addEventListener("click", function () {
-            let userClick = this.getAttribute("data-city");
+        document.getElementsByClassName("btn")[i].addEventListener('click', function () {
+            let userClick = this.getAttribute("user-city");
             getWeather(userClick);
             console.log(userClick);
             clearResults();
@@ -195,13 +214,6 @@ function generateUserHistory() {
 };
 
 // Give user option to clear their search history
-function removePastCities() {
-    let pastCities = JSON.parse(localStorage.getItem("pastCities"));
-    for (let i = 0; i < pastCities.length; i++) {
-        document.getElementById("city-" + pastCities[i]).remove();
-    }
-    localStorage.clear("pastCities");
-};
 
 // Previously searched info will be removed
 let clearResults = function () {
@@ -213,8 +225,8 @@ let clearResults = function () {
     windEl.remove();
 };
 
-searchHandler.addEventListener("submit", searchWeather);
-clearBtn.addEventListener("click", removePastCities);
+clearBtn.addEventListener("click", clearPastCities);
+search.addEventListener("submit", searchWeather);
 
 generateUserHistory();
 

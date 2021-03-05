@@ -1,9 +1,14 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -17,8 +22,8 @@
 
 <body>
 
-    <header class="header bg-info">
-        <h1 class="site-header display-4 text-light">🌪🌤 Weather Dashboard ⛈🌨</h1>
+    <header class="dashboard-header">
+        <h1 class="dashboard-h1 display-3">🌪🌤 Weather Dashboard ⛈🌨</h1>
     </header>
 
     <main class="main-content container">
@@ -28,12 +33,12 @@
             <section id="search-wrapper" class="wrapper-style card col-lg-3">
                 <!-- form for searching a city -->
                 <form id="search" class="text-center text-wrap">
-                    <label class="search-label" for="search-box">Search by City</label>
+                    <label class="search-label" for="search-box">Enter a City, See the Weather!</label>
                     <input type="text" id="user-input" name="search-box" class="form-control text-input" />
                     <button type="submit" form="search" id="search-button" class="btn btn-primary btn-block"><i
-                            class="fas fa-search"></i></button>
+                            class="glyphicon glyphicon-eye-open"></i></button>
                     <button type="reset" form="search" id="clear-btn" class="btn btn-danger btn-block"><i
-                            class="far fa-trash-alt"></i></button>
+                            class="glyphicon-remove-sign"></i></button>
                 </form>
                 <div id="user-search-history" class="card-body">
                     <!-- save and display recent cities searched -->
@@ -44,7 +49,7 @@
             <section id="result-wrapper" class="results col-lg-9 card">
 
                 <!-- current forecast section -->
-                <div id="current-result" class="result card-body border-secondary">
+                <div id="search-result" class="result card-body border-secondary">
                     <!-- append current weather here -->
                 </div>
 
@@ -67,6 +72,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
         integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg=="
         crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 
