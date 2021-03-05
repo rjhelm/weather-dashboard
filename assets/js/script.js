@@ -152,21 +152,15 @@ let searchEvent = function(event) {
     };
 };
 
-// Show user Searches or returns empty if they have no past search
-function getStoredWeather() {
-    let storeUserData = JSON.parse(localStorage.getItem("storeUserData"));
-    if (!storeUserData) {
-        return {
-            userHistory: [],
-            data: {
-                todayWeather: [],
-                fiveForecast: []
-            }
-        };
-    } else {
-      return storeUserData;
-    }
-}
+function createBtn(city) {
+    let citySearch = document.createElement("button");
+    citySearch.textContent = city;
+    citySearch.classList = "btn btn-info btn-block";
+    citySearch.setAttribute("data-city", city);
+    citySearch.setAttribute("type", "submit");
+    citySearch.setAttribute("id", "city-" + city);
+    searchHistoryDiv.prepend(citySearch);
+};
 
 
 
