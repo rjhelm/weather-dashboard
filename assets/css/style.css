@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+}
+
+.created-text {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 30px;
+    background-color: darkslateblue;
+}
+
+.site-header {
+    margin-top: 10px;
+    color: black;
+}
+
+.search-label {
+    margin-top: 7px;
+    font-weight: bold;
+}
+
+.wrapper-style {
+    background-color: forestgreen;
+}
+
+.user-input {
+    margin-bottom: 7px;
+}
+
+.result {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: forestgreen;
+}
+
+.city-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.icon {
+    width: 87px;
+    height: 87px;
+}
+
+.results {
+    border: 0;
+}
+
+.uv-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uv-result {
+    color: black;
+    font-size: 20px;
+    padding: 1px 8px;
+    margin-left: 8px;
+}
+
+.five-wrapper {
+    border: 0;
+}
+
+.five-card {
+    text-align: center;
+    margin-right: 4px;
+}
+
+.five-style {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+    background-color: forestgreen;
+}
+
+.five-day-icon {
+    height: 60px;
+    width: 60px;    
+}
+
+@media screen and (max-width: 1200px) {
+    .site-header {
+        font-size: 2rem;
+    }
+    
+    .created-text {
+        font-size: 1.2rem;
+    }
+
+    .five-style {
+        flex-direction: column;
+    }
+
+    .five-card {
+        margin-bottom: 3px;
+    }
+
+    .five-card h4 {
+        font-size: 1.20rem;
+    }
+
+    .five-card h5 {
+       font-size: 1.25rem;
+    }
+}
+
+@media screen and (max-width: 980px) {
+}
+
+@media screen and (max-width: 768px) {
+}

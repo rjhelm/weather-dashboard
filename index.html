@@ -18,14 +18,14 @@
 <body>
 
     <header class="header bg-info">
-        <h1 class="heading display-4 text-light">🌪🌤 Weather Dashboard ⛈🌨</h1>
+        <h1 class="site-header display-4 text-light">🌪🌤 Weather Dashboard ⛈🌨</h1>
     </header>
 
     <main class="main-content container">
 
         <div class="content-wrapper row">
 
-            <section id="search-wrapper" class="search-wrap-style card col-lg-3">
+            <section id="search-wrapper" class="wrapper-style card col-lg-3">
                 <!-- form for searching a city -->
                 <form id="search" class="text-center text-wrap">
                     <label class="search-label" for="search-box">Search by City</label>
@@ -44,15 +44,15 @@
             <section id="result-wrapper" class="results col-lg-9 card">
 
                 <!-- current forecast section -->
-                <div id="current-result" class="current-style card-body border-secondary">
+                <div id="current-result" class="result card-body border-secondary">
                     <!-- append current weather here -->
                 </div>
 
                 <!-- 5 day forecast section -->
                 <section>
                     <!-- will need to make line 50 div a card, line 51 div a card-body and javascript created div a card-body-->
-                    <div id="forecast-wrapper" class="forecast-wrap card">
-                        <div id="five-day" class="forecast-class card-body border-secondary">
+                    <div id="five-day-wrapper" class="five-wrapper card">
+                        <div id="five-day-result" class="five-style card-body border-secondary">
                             <!-- append 5 day forecasted weather here -->
                         </div>
                     </div>
