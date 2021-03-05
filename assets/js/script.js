@@ -96,7 +96,31 @@ function storeTodayWeather(results) {
     localStorage.setItem("storeUserData", JSON.stringify(storeUserData));    
 }
 
+function showTodayWeather(results) {
+    let userCity = results.name;
+    let date = new Date(results.dt * 1000);
+    let weatherDescription = results.weather[0].main;
+    let temp = results.main.temp;
+    let humidity = results.main.humidity;
+    let wind = results.wind.speed;
+    let latitude = results.coord.latitude;
+    let longitude = results.coord.longitude
+    let weatherIcon = `https://openweathermap.org/img/w/${results.weather[0].icon}.png`;
 
+    $("#input-city").text(userCity);
+    $("#today").text(`(${date.getMonth() + 1}/${date.getDate()}/$${date.getFullYear()})`);
+    $("#today-weather-icon").attr("src", weatherIcon);
+    $("#today-weather-icon").attr("alt", description + " icon");
+    $("#today-temp").text(temp);
+    $("#today-humidity").text(humidity);
+    $("#today-wind").text(wind);
+    getUVIndex(longitude, latitude);
+}
+
+// Function to produce the uv index by local storage or api
+function getUVIndex(longitude, latitude) {
+    let uvUrl = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKEY}&lat=${lat}&lon=${lon}`;
+}
 
 // Take user search input and create a variable once we have the value
 /* $(document).ready(function() {
