@@ -120,6 +120,25 @@ function showTodayWeather(results) {
 // Function to produce the uv index by local storage or api
 function getUVIndex(longitude, latitude) {
     let uvUrl = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKEY}&lat=${lat}&lon=${lon}`;
+
+    $.ajax({url: uvUrl, method: "GET"}).then(function (results){   
+        let uvIndex= results.value;
+        let todayUVLevel = $("#today-uv").attr("data-uv-level");
+        $("#today-uv").removeClass(todayUVLevel);
+        $("#today-uv").text(uvIndex);
+        if (uvIndex < 3) {
+            $("#today-uv").attr("data-uv-level", "uv-low");
+        } else if (uvIndex < 6) {
+          $("#today-uv").attr("data-uv-level", "uv-mod");  
+        } else if (uvIndex < 8) {
+            $("#today-uv").attr("data-uv-level", "uv-high");
+        } else if (uvIndex < 11) {
+            $("#today-uv").attr("data-uv-level", "uv-very-high");
+        } else {
+            $("#today-uv").attr("data-uv-level", "uv-ext");
+        }
+        $("#today-uv").addClass($("#today-uv").attr("data-uv-level"));
+    });
 }
 
 // Take user search input and create a variable once we have the value
