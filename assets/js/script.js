@@ -1,22 +1,78 @@
 
 // Global Variables
-let apiKey = "ff0a18ba5cd32a565822484c34ea4036";
-let myCity = ""
+// let apiKey = "ff0a18ba5cd32a565822484c34ea4036";
+let date = moment().format("ll");
+let search = document.querySelector("#search-form");
+let searchInput = document.querySelector("#search-input");
+let searchResult = document.querySelector("#search-result");
+let clearBtn = document.querySelector("clear-btn")
 let fiveForecast = "https://api.openweathermap.org/data/2.5/forecast?4e5dbe7db2b5e9c8b47fa40b691443d5q={city name},{country code}"
 let weatherNow = "https://api.openweathermap.org/data/2.5/weather?appid="
 let uv = "https://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}"
 let userSearch = JSON.parse(localStorage.getItem("userResults")) || [];
-let userHistory = document.getElementById("#user-history")
-let searchBtn = document.getElementById("#search-btn")
 
-// Search for user input city 
-$("#searchBtn").on("click", function(event) {
-    event.preventDefault();
-    let userCity = $("#userCity").val();
-    $("#userCity").val("");
-    getTodayWeather(userCity)
-    getWeeklyWeather(userCity)
-});
+//Temperature HTML Variables
+const cityTempDiv = document.createElement("div");
+const cityDetailsDiv = document.createElement("div");
+let cityNameEl = document.createElement("div");
+let currentTempEl = document.createElement("div");
+let humidityEl = document.createElement("div");
+let windEl = document.createElement("div");
+let uvIndexContainer = document.createElement("div");
+let uvIndexEl = document.createElement("h4");
+let uvValueDisplay = document.createElement("div");
+
+// 5 day forecast HTML Variables
+let fiveDay = document.querySelector("#fiveday-forcast");
+
+// Search HTML variables
+let searchWrap = document.querySelector("#search-wrap");
+let userHistory = document.querySelector("#user-search-history");
+let cityCount = 1;
+
+// Get weather from openweatherapi based on the user search
+let getWeather = function(city) {
+    if (!city) {
+        return;
+    };
+    let weatherAPI =
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
+      city +
+      "&units=imperial&appidff0a18ba5cd32a565822484c34ea4036";
+    fetch(weatherAPI).then(function (response) {
+        if (!response || !response.ok) {
+            throw new Error('There was an error');
+        }
+        return response.json();
+    })
+    // Create new elements based on the response data
+    .then(function (response) {
+        cityTempDiv.classList = 'temp-div';
+        responseContainer.appendChild(cityTempDiv);
+        cityDetailsDiv.classList = 'detail-div';
+        responseContainer.appendChild(cityDetailsDiv);
+        cityNameEl.innerHTML =
+          "<h2 class='secondary-text'>Current Weather for <span class='font-weight-bold'>" + response.name + 
+          "</span><h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon +
+          ".png' alt=Current weather icon/><h2 class='font-weight-bold secondary-text'>" + date + "</h2><br>";
+        cityTempDiv.appendChild(cityNameEl);
+
+        currentTempEl.innerHTML =
+          "<h3 class='secondary-text'>Current Temperature:<span class='font-weight-bold'>" +
+          " " +
+          Math.round(response.main.temp) +
+          "&#176F</span></h3><br>";
+        cityTempDiv.appendChild(cityTempEl);
+
+        humidityEl.innerHTML =
+          "<h4 class='secondary-text'>Humidity:<span class='font-weight-bold'>" +
+          " " +
+          response.main.humidity +
+          "%</span></h4>";
+        cityDetailsDiv.appendChild(humidityEl);  
+
+    })
+}
 
 // Function used to input user input and save the city to be used later
 function userStoredWeather() {
@@ -140,82 +196,6 @@ function getUVIndex(longitude, latitude) {
         $("#today-uv").addClass($("#today-uv").attr("data-uv-level"));
     });
 }
-
-// Take user search input and create a variable once we have the value
-/* $(document).ready(function() {
-    $("#user-input").on("click", function(event) {
-        let inputValue = $("#search-city").val()
-        userWeather(inputValue)
-        console.log(inputValue)
-    })
-})
-
-// Take the value of user search and send it to userWeather function
-function userWeather(cityName) {
-    let apiCall = ""
-    if (cityName !== "") {
-        apiCall = weatherNow + apiKey + "&q=" + cityName
-    } else {
-        apiCall = weatherNow + apiKey + "&q=" + myCity
-    }
-
-    $.ajax({url: fiveForecast, method: "GET"}).then(function(response){
-        console.log(response)
-        let feelslike = response.main.temp
-        feelslike = (feelslike - 273.15) * 1.8 + 32
-        feelslike = Math.floor(feelslike)
-        myCity = response.name 
-        $("#weather-now").append("<div>" + feelslike + "</div>")
-        $("#weather-now").append("<div>" + myCity + "</div>")
-        fiveForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${myCity}&appid=${apiKey}`
-
-        $.ajax({url: fiveForecast, method: "GET"}).then(function(response) {
-            console.log(response)
-            let averageTemp = 0
-            let pastDate = ""
-            let count = 0
-            let results = 0
-            pastDate = moment().format("MM DD YYYY")
-            for (let index = 0; index < response.list.length; index++) {
-                let today = moment(response.list[index].dt, "X").format("MM DD YYYY")
-                
-                let temperature = response.list[index].main.temperature
-                temperature = (temperature - 273.15) * 1.8 + 32
-                temperature = Math.floor(temperature)
-
-                console.log(currentDate)
-                console.log(temperature)
-
-                if (pastDate === today) {
-                    averageTemp = averageTemp + temperature
-                    count ++
-                    pastDate = today
-                } else {
-                    results = averageTemp / count
-                    results = Math.floor(results)
-                    console.log("results", results)
-
-                }
-            }
-            
-        })
-
-
-
-
-
-
-
-        let averageTemp = 0
-        let priorDay = ""
-        let count = 0
-        let results = 0
-        priorDay = moment().format("MM/DD/YYYY")
-        for (let index = 0; index < response.list.length; index++) {
-            let currentDate = moment(response.list[index].main.temp)
-        }
-    })
-} */
 
 
 
