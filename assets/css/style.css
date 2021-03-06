@@ -132,7 +132,13 @@
 }
 
 @media screen and (max-width: 980px) {
+    .dashboard-h1 {
+        font-size: 26px;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    .dashboard-h1 {
+        font-size: 22px;
+    }
 }

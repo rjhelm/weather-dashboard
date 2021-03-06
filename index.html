@@ -1,14 +1,11 @@
 <!DOCTYPE html>
     <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-       
+       <!-- Links to API for styling -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
             integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -19,62 +16,50 @@
         <link rel="stylesheet" href="./assets/css/style.css" />
         <title>Weather Dashboard || 🌪🌤⛈🌨</title>
     </head>
-
 <body>
-
+    <!-- Our Header Section which displays what our site is -->
     <header class="dashboard-header">
         <h1 class="dashboard-h1 display-3">🌪🌤 Weather Dashboard ⛈🌨</h1>
     </header>
-
     <main class="main-content container">
-
         <div class="content-wrapper row">
-
+            <!-- Section for the search function layout -->
             <section id="search-wrapper" class="wrapper-style card col-lg-3">
-                <!-- form for searching a city -->
                 <form id="search" class="text-center text-wrap">
                     <label class="search-label" for="search-box">Enter a City, See the Weather!</label>
                     <input type="text" id="user-input" name="search-box" class="form-control text-input" />
-                    <button type="submit" form="search" id="search-button" class="btn btn-primary btn-block"><i
-                            class="glyphicon glyphicon-eye-open"></i></button>
-                    <button type="reset" form="search" id="clear-btn" class="btn btn-danger btn-block"><i
-                            class="glyphicon-remove-sign"></i></button>
+                    <button type="submit" form="search" id="search-button" class="btn btn-primary btn-success btn-block"><i
+                            class="glyphicon glyphicon-send"></i></button>
+                    <button type="reset" form="search" id="clear-btn" class="btn btn-info btn-block"><i
+                            class="glyphicon glyphicon-erase"></i></button>
                 </form>
                 <div id="user-search-history" class="card-body">
-                    <!-- save and display recent cities searched -->
+                    <!-- Saves the cities searched by user and keeps them here -->
                 </div>
             </section>
-
-            <!-- results section -->
+            <!-- Section to append search results based on user input -->
             <section id="result-wrapper" class="results col-lg-9 card">
-
-                <!-- current forecast section -->
-                <div id="search-result" class="result card-body border-secondary">
-                    <!-- append current weather here -->
+                <h2 class="result-title">Your Results: </h2>
+                <!-- Todays Forecast in card form -->
+                <div id="search-result" class="result card-body border-secondary"> 
                 </div>
-
-                <!-- 5 day forecast section -->
+                <!-- Section to append Five Day Forecast info -->
                 <section>
-                    <!-- will need to make line 50 div a card, line 51 div a card-body and javascript created div a card-body-->
+                    <!-- Makes the Five Day Forecast appear in card form for a clean layout -->
                     <div id="five-day-wrapper" class="five-wrapper card">
+                        <h2 class="five-day-title card-title">Five Day Forecast: </h2>
                         <div id="five-day-result" class="five-style card-body border-secondary">
-                            <!-- append 5 day forecasted weather here -->
                         </div>
                     </div>
                 </section>
             </section>
-
         </div>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
-        integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg=="
-        crossorigin="anonymous"></script>
+    <!-- Script tags with links jquery, moment, and more bootstrap styling options -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
         <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
     <script src="./assets/js/script.js"></script>
 </body>
-
 </html>
