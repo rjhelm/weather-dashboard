@@ -36,7 +36,7 @@ Weather Dashboard uses several third-party and server-side api's:
 
 I changed my approach several times throughout the development of this app, I found the initial layout and functions I created to fetch the information weren't as intuitive as I would like and would get lost when trying to call the fetched information and get the value to display it. I ended up taking out the html elements I initially wrote into the html document to display the information, once I did this and replaced them with containers I was able to get the code to flow better and look more clean, this in turn made it far easier for me to fetch the information and create the element to display the value. A lot of trial and error went into this project but I feel this gives the traveler exactly what they are looking for in an app and I feel like a better developer, this gives me the motivation to continue improving this app moving forward.
 
- ![Weather Dashboard](./assets/imgs/weather.png)
+ ![Weather Dashboard](https://github.com/rjhelm/weather-dashboard/blob/main/assets/imgs/weather.PNG)
 
  Link to [Weather Dashboard]()
 
