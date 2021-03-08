@@ -1,10 +1,11 @@
 // Weather Dashboard Web Application //
+
 // Global Variables //
 let date = moment().format("ll");
 let search = document.querySelector("#search");
 let userInput = document.querySelector("#user-input");
 let result = document.querySelector("#search-result");
-let clearBtn = document.querySelector("#clear-btn");
+let clearBtn = document.querySelector("#clear-button");
 //Temperature HTML Variables //
 const tempDiv = document.createElement("div");
 const cityDiv = document.createElement("div");
@@ -22,7 +23,9 @@ let searchCard = document.querySelector("#search-wrapper");
 let cityHistory = document.querySelector("#user-search-history");
 let cityVar = 1;
 
-// Get weather from openweatherapi based on the user search //
+// Getting the weather and storing it based on user search, create and style the results //
+
+// Function to fetch data and display the data //
 let getWeather = function(city) {
     if (!city) {
         return;
@@ -46,11 +49,11 @@ let getWeather = function(city) {
         result.appendChild(cityDiv);
         // Display the user's search entry for the city //
         cityEl.innerHTML =
-          "<h2 class='created-text'>Current Weather for <span class='font-weight-bold'>" + response.name + "</span><h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt=Current weather icon/><h2 class='font-weight-bold created-text'>" + date + "</h2><br>";
+          "<h2 class='created-text'>Forecast: <span class='font-weight-bold'>" + response.name + "</span><h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt=Current weather icon/><h2 class='font-weight-bold created-text'>" + date + "</h2><br>";
         tempDiv.appendChild(cityEl);
         // Display the fetched current temperature value //
         tempEl.innerHTML =
-          "<h3 class='created-text'>Current Temperature:<span class='font-weight-bold'>" + " " + Math.round(response.main.temp) + "&#176F</span></h3><br>";
+          "<h3 class='created-text'>Temperature:<span class='font-weight-bold'>" + " " + Math.round(response.main.temp) + "&#176F</span></h3><br>";
         tempDiv.appendChild(tempEl);
         // Display the fetched humidity value //
         humidityEl.innerHTML =
@@ -82,11 +85,11 @@ let getWeather = function(city) {
         uvContainer.appendChild(uvDisplay);
         // UV Index results and gives a response based on how high the Index is //
         if (uvResponse.value <= 2) {
-            document.querySelector("#uv-index").classList = "uv-result rounded bg-success";
+            document.querySelector("#uv-index").classList = "uv-result rounded-circle border-dark bg-success";
         } else if (uvResponse.value >= 2 && uvResponse.value <= 7) { 
-            document.querySelector("#uv-index").classList = "uv-result rounded bg-warning";
+            document.querySelector("#uv-index").classList = "uv-result rounded-circle border-dark bg-warning";
         } else if (uvResponse.value < 7) {
-            document.querySelector("#uv-index").classList = "uv-result rounded bg-danger";    
+            document.querySelector("#uv-index").classList = "uv-result rounded-circle border-dark bg-danger";    
         }
         return fetch(
           "https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=c83c5006fffeb4aa44a34ffd6a27f135&units=imperial"
@@ -141,6 +144,8 @@ let searchWeather = function(event) {
         alert("You must enter a city into the search field. Please try again!");
     };
 };
+
+// User History Section of the code //
 
 // Loads the search history from local storage //
 function generateUserHistory() {
@@ -202,6 +207,7 @@ let clearResults = function () {
     humidityEl.remove();
     windEl.remove();
 };
+
 // Event Listeners for user search and clear history //
 clearBtn.addEventListener("click", clearPastCities);
 search.addEventListener("submit", searchWeather);

@@ -8,11 +8,6 @@
             integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-            integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-            crossorigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&family=Montserrat&display=swap"
-            rel="stylesheet">
         <link rel="stylesheet" href="./assets/css/style.css" />
         <title>Weather Dashboard || 🌪🌤⛈🌨</title>
     </head>
@@ -29,11 +24,13 @@
                     <label class="search-label" for="search-box">Enter a City, See the Weather!</label>
                     <input type="text" id="user-input" name="search-box" class="form-control text-input" />
                     <button type="submit" form="search" id="search-button" class="btn btn-primary btn-success btn-block"><i
-                            class="glyphicon glyphicon-send"></i></button>
-                    <button type="reset" form="search" id="clear-btn" class="btn btn-info btn-block"><i
+                            class="glyphicon glyphicon-fire"></i></button>
+                    <button type="reset" form="search" id="clear-button" class="btn btn-info btn-block"><i
                             class="glyphicon glyphicon-erase"></i></button>
                 </form>
+                
                 <div id="user-search-history" class="card-body">
+                    
                     <!-- Saves the cities searched by user and keeps them here -->
                 </div>
             </section>
@@ -41,14 +38,14 @@
             <section id="result-wrapper" class="results col-lg-9 card">
                 <h2 class="result-title">Your Results: </h2>
                 <!-- Todays Forecast in card form -->
-                <div id="search-result" class="result card-body border-secondary"> 
+                <div id="search-result" class="result card-body border-dark"> 
                 </div>
                 <!-- Section to append Five Day Forecast info -->
                 <section>
                     <!-- Makes the Five Day Forecast appear in card form for a clean layout -->
                     <div id="five-day-wrapper" class="five-wrapper card">
                         <h2 class="five-day-title card-title">Five Day Forecast: </h2>
-                        <div id="five-day-result" class="five-style card-body border-secondary">
+                        <div id="five-day-result" class="five-style card-body border-dark">
                         </div>
                     </div>
                 </section>
