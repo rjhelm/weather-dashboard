@@ -38,7 +38,7 @@ I changed my approach several times throughout the development of this app, I fo
 
  ![Weather Dashboard](https://github.com/rjhelm/weather-dashboard/blob/main/assets/imgs/weather.PNG)
 
- Link to [Weather Dashboard]()
+ Link to [Weather Dashboard](https://rjhelm.github.io/weather-dashboard/)
 
  </br>
 
